@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SYNAPSE BLACK HUB</title>
+
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@400;600;700&display=swap');
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Prompt', sans-serif;
+    background: url('CPU SBAP.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 10px rgba(0, 255, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid #0f0;
+  }
+
+  header .logo {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #00ff00;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  #openSidebarBtn {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: #0f0;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  #openSidebarBtn:hover {
+    color: #80ff80;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  nav a,
+  .login-button,
+  .dropbtn {
+    font-weight: 600;
+    padding: 0.6rem 1.5rem;
+    border-radius: 30px;
+    border: 1px solid #0f0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(6px);
+    color: #0f0;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  nav a:hover,
+  .login-button:hover,
+  .dropbtn:hover {
+    background: #00ff00;
+    color: #000;
+  }
+
+  /* ==================== Dropdown ใหม่แบบมินิมอล ==================== */
+  #userDropdown {
+    position: relative;
+    display: inline-block;
+    font-family: 'Prompt', sans-serif;
+  }
+
+  #userDropdown button.dropbtn {
+    background-color: transparent;
+    color: #0f0;
+    padding: 8px 20px;
+    font-size: 1rem;
+    border: 1.5px solid #0f0;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.25s ease, color 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    user-select: none;
+  }
+
+  #userDropdown button.dropbtn::after {
+    content: '▾';
+    font-size: 0.7rem;
+    color: #0f0;
+    margin-left: 8px;
+    transition: transform 0.3s ease;
+  }
+
+  #userDropdown button.dropbtn:hover,
+  #userDropdown button.dropbtn:focus {
+    background-color: rgba(0, 255, 0, 0.15);
+    outline: none;
+  }
+
+  #userDropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1.5px solid #0f0;
+    border-radius: 10px;
+    min-width: 180px;
+    box-shadow: 0 2px 8px rgba(0, 255, 0, 0.3);
+    padding: 0.3rem 0;
+    z-index: 100;
+  }
+
+  #userDropdown:hover .dropdown-content,
+  #userDropdown:focus-within .dropdown-content {
+    display: block;
+  }
+
+  #userDropdown .dropdown-content a {
+    color: #0f0;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: block;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+  }
+
+  #userDropdown .dropdown-content a:hover {
+    background-color: #0f0;
+    color: #000;
+    border-radius: 8px;
+  }
+  /* ==================== จบ Dropdown ==================== */
+
+  main {
+    text-align: center;
+    padding: 3rem 1rem 5rem;
+    max-width: 900px;
+    margin: auto;
+  }
+
+  main h1 {
+    font-size: 2.2rem;
+    margin-bottom: 1.2rem;
+    text-shadow: 0 0 10px #0f0;
+  }
+
+  .center-image {
+    max-width: 400px;
+    width: 100%;
+    border-radius: 15px;
+    margin: 1.5rem auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .center-image:hover {
+    transform: translateY(-5px);
+    animation: rgb-glow 2s infinite;
+  }
+
+  .description {
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid #0f0;
+    border-radius: 12px;
+    padding: 2rem;
+    line-height: 1.6;
+    font-size: 1.05rem;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+    backdrop-filter: blur(6px);
+  }
+
+  #sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 3px 0 10px rgba(0, 255, 0, 0.5);
+    overflow-x: hidden;
+    transition: 0.3s;
+    z-index: 30;
+    padding-top: 60px;
+  }
+
+  #sidebar a {
+    display: block;
+    padding: 12px 30px;
+    font-size: 1.2rem;
+    color: #0f0;
+    border-bottom: 1px solid #0f0;
+    text-decoration: none;
+    transition: 0.2s;
+  }
+
+  #sidebar a:hover {
+    background: #0f0;
+    color: #000;
+  }
+
+  #sidebar .closebtn {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 2rem;
+    color: #0f0;
+    cursor: pointer;
+  }
+
+  body.sidebar-open main {
+    margin-left: 250px;
+    transition: margin-left 0.3s ease;
+  }
+
+  @media (max-width: 768px) {
+    header {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    nav {
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+  }
+
+  @keyframes rgb-glow {
+    0% { box-shadow: 0 0 10px red, 0 0 20px orange, 0 0 30px yellow; }
+    25% { box-shadow: 0 0 10px yellow, 0 0 20px green, 0 0 30px cyan; }
+    50% { box-shadow: 0 0 10px cyan, 0 0 20px blue, 0 0 30px violet; }
+    75% { box-shadow: 0 0 10px violet, 0 0 20px pink, 0 0 30px red; }
+    100% { box-shadow: 0 0 10px red, 0 0 20px orange, 0 0 30px yellow; }
+  }
+  </style>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <button id="openSidebarBtn" title="เปิดเมนู">&#9776;</button>
+    SYNAPSE BLACK HUB
+  </div>
+  <nav>
+    <a href="#" id="changeColorBtn" title="เปลี่ยนสีตัวหนังสือ">🎨 เปลี่ยนสีตัวหนังสือ</a>
+    <button id="loginBtn" class="login-button">เข้าสู่ระบบ</button>
+    <div id="userDisplayContainer" style="display:none;"></div>
+  </nav>
+</header>
+
+<div id="sidebar">
+  <a href="javascript:void(0)" class="closebtn" id="closeSidebarBtn">&times;</a>
+  <a href="#">หน้าแรก</a>
+  <a href="#">คอร์สเรียน</a>
+  <a href="#">บทความ</a>
+  <a href="#">ฟอรัม</a>
+  <a href="contact.html">ติดต่อเรา</a>
+</div>
+
+<main>
+  <h1>พัฒนาทักษะการเขียนโปรแกรมของคุณที่นี่</h1>
+  <img class="center-image" src="file_00000000e1d461f6818913d1e4244a33.png" alt="SYNAPSE BLACK ACADEMY PROGRAMMING" />
+  <section class="description">
+    <h2>เกี่ยวกับ SYNAPSE BLACK ACADEMY PROGRAMMING</h2>
+    <p>SYNAPSE BLACK คือแหล่งเรียนรู้ด้านการเขียนโปรแกรมที่ออกแบบมาเพื่อผู้เริ่มต้นและนักพัฒนาในอนาคต มุ่งเน้นการพัฒนาทักษะเชิงลึก พร้อมชุมชนสนับสนุนคุณทุกขั้นตอน</p>
+  </section>
+</main>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBYhxj2M7l4PoxSxMOKMr7CMxpi6x7GM5k",
+    authDomain: "your-project-id.firebaseapp.com",
+    projectId: "your-project-id",
+    storageBucket: "your-project-id.appspot.com",
+    messagingSenderId: "380643435879",
+    appId: "1:380643435879:web:8282cefdc052ea6c74bbc2"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch((error) => {
+    console.error("Error setting persistence:", error);
+  });
+
+  const loginBtn = document.getElementById("loginBtn");
+  const userDisplayContainer = document.getElementById("userDisplayContainer");
+
+  function createDropdown(userEmail) {
+    userDisplayContainer.innerHTML = `
+      <div id="userDropdown" tabindex="0">
+        <button class="dropbtn">ยินดีต้อนรับ: ${userEmail}</button>
+        <div class="dropdown-content" role="menu">
+          <a href="#" role="menuitem">ตั้งค่าบัญชี</a>
+          <a href="#" role="menuitem">ประวัติการซื้อขาย</a>
+          <a href="#" id="blacklistStatus" role="menuitem">สถานะบัญชี: กำลังโหลด...</a>
+          <a href="#" id="logoutMenuBtn" role="menuitem">ลงชื่อออก</a>
+        </div>
+      </div>
+    `;
+
+    const isBlacklisted = false; // ปรับตามข้อมูลจริง
+    const blacklistStatusEl = document.getElementById("blacklistStatus");
+    blacklistStatusEl.textContent = isBlacklisted ? "สถานะบัญชี: ถูกขึ้นบัญชีดำ" : "สถานะบัญชี: ปกติ";
+    blacklistStatusEl.style.color = isBlacklisted ? "red" : "lightgreen";
+
+    document.getElementById("logoutMenuBtn").addEventListener("click", () => {
+      auth.signOut();
+    });
+  }
+
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      loginBtn.style.display = "none";
+      userDisplayContainer.style.display = "inline-block";
+      createDropdown(user.email);
+    } else {
+      loginBtn.style.display = "inline-block";
+      userDisplayContainer.style.display = "none";
+      userDisplayContainer.innerHTML = "";
+    }
+  });
+
+  loginBtn.addEventListener("click", () => {
+    const email = prompt("กรุณากรอกอีเมล");
+    if (!email) return alert("กรุณากรอกอีเมลให้ถูกต้อง");
+    const password = prompt("กรุณากรอกรหัสผ่าน");
+    if (!password) return alert("กรุณากรอกรหัสผ่าน");
+    auth.signInWithEmailAndPassword(email, password)
+      .then(() => alert("ล็อกอินสำเร็จ"))
+      .catch((error) => alert("เกิดข้อผิดพลาด: " + error.message));
+  });
+
+  const colors = ['#00FF00', '#00FFFF', '#FF00FF', '#FFFF00', '#FF4500', '#1E90FF', '#FF1493'];
+  let currentColorIndex = 0;
+  const changeColorBtn = document.getElementById('changeColorBtn');
+  changeColorBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    currentColorIndex = (currentColorIndex + 1) % colors.length;
+    document.body.style.color = colors[currentColorIndex];
+  });
+
+  const sidebar = document.getElementById('sidebar');
+  const openSidebarBtn = document.getElementById('openSidebarBtn');
+  const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+
+  openSidebarBtn.addEventListener('click', () => {
+    sidebar.style.width = '250px';
+    document.body.classList.add('sidebar-open');
+  });
+
+  closeSidebarBtn.addEventListener('click', () => {
+    sidebar.style.width = '0';
+    document.body.classList.remove('sidebar-open');
+  });
+</script>
+
+</body>
+</html>
